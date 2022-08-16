@@ -1,0 +1,270 @@
+:root {
+  --primary: #ebddac;
+  --bg: #ffffff;
+  --fg: #394257;
+  --bgi: #616879;
+  --fgi: #ffffff;
+  --title: 'Playfair Display', serif;
+  --body: 'Montserrat', sans-serif;
+  --col: 20rem;
+  --pic-h: 160px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--title);
+  font-weight: 700;
+}
+
+address {
+  font-style: normal;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body);
+  color: var(--fg);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: var(--bgi);
+  display: grid;
+  grid-template-columns: var(--col) auto;
+  min-height: 100vh;
+  grid-template-areas:
+    '. exp'
+    '. edu'
+    '. ski';
+}
+
+a,
+a:active {
+  color: var(--fgi);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#photo {
+  position: absolute;
+  top: 4rem;
+  left: calc(var(--col) / 2);
+  translate: calc(var(--pic-h) / -2);
+  width: var(--pic-h);
+  border-radius: var(--pic-h);
+}
+
+#name {
+  position: absolute;
+  top: 16.5rem;
+  width: var(--col);
+  padding-inline: 2rem;
+  color: var(--primary);
+  font-family: var(--title);
+  font-size: 2rem;
+  letter-spacing: 0.07rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+#role {
+  position: absolute;
+  top: 25rem;
+  width: var(--col);
+  padding-inline: 2rem;
+  color: var(--fgi);
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+}
+
+#location {
+  position: absolute;
+  top: 27rem;
+  width: var(--col);
+  padding-inline: 2rem;
+  color: var(--fgi);
+  font-family: var(--body);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+}
+
+#location svg {
+  margin-inline-end: 0.25rem;
+}
+
+#summary h3,
+#contact h3 {
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-block-end: 0.5rem;
+}
+
+#summary {
+  position: absolute;
+  top: 31rem;
+  width: var(--col);
+  padding-inline: 2rem;
+}
+
+#summary p {
+  color: var(--fgi);
+  font-size: 0.8rem;
+}
+
+#contact {
+  position: absolute;
+  top: 39.5rem;
+  width: var(--col);
+  padding-inline: 2rem;
+  color: var(--fgi);
+}
+
+#contact a {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-end: 0.15rem;
+}
+
+#experience,
+#education,
+#skills {
+  padding-inline: 2rem;
+}
+
+#experience h3,
+#education h3,
+#skills h3 {
+  font-size: 1.5rem;
+}
+
+#experience h4,
+#education h4,
+#skills h4 {
+  font-family: var(--body);
+  font-weight: 700;
+}
+
+#experience {
+  grid-area: exp;
+  background-color: var(--bg);
+  padding-block-start: 4rem;
+}
+
+#experience-company,
+#experience-start,
+#experience-end {
+  font-weight: 600;
+}
+
+#experience-start::before {
+  content: ' | ';
+}
+
+#experience-start::after {
+  content: ' - ';
+}
+
+#experience-stack {
+  list-style: none;
+  font-style: italic;
+}
+
+#experience-stack li {
+  display: inline;
+}
+
+#experience-stack li:nth-last-child(n + 3)::after {
+  content: ',';
+}
+#experience-stack li:nth-last-child(2)::after {
+  content: ' and';
+}
+
+#education {
+  grid-area: edu;
+  background-color: var(--bg);
+  padding-block-start: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#education h3 {
+  flex: 1 100%;
+}
+
+#education-institution {
+  flex: 1 100%;
+}
+
+#education-details {
+  order: 1;
+  font-style: italic;
+}
+
+#education-degree,
+#education-start,
+#education-end {
+  font-weight: 600;
+}
+
+#education-degree::after {
+  content: '|';
+  margin-inline: 0.25rem;
+}
+
+#education-start::after {
+  content: '-';
+  margin-inline: 0.25rem;
+}
+
+#skills {
+  grid-area: ski;
+  background-color: var(--bg);
+  padding-block-start: 2rem;
+  padding-block-end: 8rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#skills h3 {
+  flex: 1 100%;
+}
+
+#skills-top,
+#skills-lang {
+  flex: 1 50%;
+}
+
+[id^='icon'] {
+  fill: var(--fgi);
+  height: 14px;
+  width: 14px;
+}
