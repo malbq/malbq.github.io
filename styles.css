@@ -58,15 +58,26 @@ body {
   font-size: 16px;
   line-height: 1.5;
   background-color: var(--bgi);
-  display: flex;
-  align-items: stretch;
+}
+
+@media (min-width: 40em) {
+  body {
+    display: flex;
+    align-items: stretch;
+  }
 }
 
 #profile {
   display: flex;
   flex-direction: column;
-  padding: 4rem 2rem 8rem;
-  width: var(--col);
+  padding: 4rem calc(54vw - var(--col) / 2) 2rem;
+}
+
+@media (min-width: 40em) {
+  #profile {
+    width: var(--col);
+    padding: 4rem 2rem 8rem;
+  }
 }
 
 #details {
@@ -243,10 +254,12 @@ body {
   flex-wrap: wrap;
   order: 2;
   column-gap: 2rem;
+  row-gap: 1rem;
 }
 
 #skills h3 {
   flex: 1 100%;
+  margin-block-end: calc(0.5em - 1rem);
 }
 
 [id^='icon'] {
