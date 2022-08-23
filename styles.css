@@ -6,7 +6,6 @@
   --fgi: #ffffff;
   --title: 'Playfair Display', serif;
   --body: 'Montserrat', sans-serif;
-  --col: 20rem;
   --pic-h: 160px;
 }
 
@@ -70,7 +69,7 @@ body {
 #profile {
   display: flex;
   flex-direction: column;
-  padding: 4rem max(2rem, calc(56vw - var(--col) / 2)) 2rem;
+  padding: 4rem max(2rem, calc(50vw - 8rem)) 2rem;
   background: radial-gradient(ellipse at top right, #41485a, transparent),
     radial-gradient(ellipse at bottom left, #41485a, transparent),
     radial-gradient(ellipse at bottom right, #9eaccf, transparent),
@@ -79,8 +78,8 @@ body {
 
 @media (min-width: 40em) {
   #profile {
-    width: var(--col);
-    padding: 4rem 2rem 8rem;
+    width: 50vw;
+    padding: 4rem 2rem 8rem calc(50vw - 18rem);
   }
 }
 
