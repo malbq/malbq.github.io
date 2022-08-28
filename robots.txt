@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://malbe.dev/sitemap.txt

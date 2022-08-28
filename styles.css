@@ -183,42 +183,42 @@ body {
   color: var(--fg-light);
 }
 
-#experience-title {
+.experience-title {
   font-size: 1rem;
 }
-#experience-title:not(:first-of-type) {
+.experience-title:not(:first-of-type) {
   margin-block-start: 1rem;
 }
 
-#experience-entry:not(:first-of-type) {
+.experience-entry:not(:first-of-type) {
   margin-block-start: 2.5rem;
 }
 
-#experience-start::before {
+.experience-start::before {
   content: ' | ';
 }
 
-#experience-start::after {
+.experience-start::after {
   content: ' - ';
 }
 
-#experience-description {
+.experience-description {
   margin-block: 0.5em;
 }
 
-#experience-stack {
+.experience-stack {
   list-style: none;
   font-style: italic;
 }
 
-#experience-stack li {
+.experience-stack li {
   display: inline;
 }
 
-#experience-stack li:nth-last-child(n + 3)::after {
+.experience-stack li:nth-last-child(n + 3)::after {
   content: ',';
 }
-#experience-stack li:nth-last-child(2)::after {
+.experience-stack li:nth-last-child(2)::after {
   content: ' and';
 }
 
