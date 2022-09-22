@@ -2,27 +2,13 @@
   "name": "Mauro Gadelha Albuquerque",
   "role": "Frontend Engineer",
   "location": "Fortaleza, Brazil",
-  "summary": "I'm a frontend developer, passionate about solving problems using code, to make people's lives easier.",
+  "about": "I'm a frontend developer, passionate about solving problems using code, to make people's lives easier.",
   "contact": {
     "tel": "+55 85 987866662",
-    "mail": "maurodev@pm.me",
-    "linkedin": "linkedin.com/in/mauro-gadelha",
-    "github": "github.com/maurogadelha"
-  },
-  "skills": {
-    "main": [
-      "JavaScript",
-      "TypeScript",
-      "HTML",
-      "CSS",
-      "HTTP Protocol",
-      "REST API",
-      "GraphQL",
-      "Design Patterns",
-      "Clean Code",
-      "Clean Architecture"
-    ],
-    "languages": ["English (Full Professional)", "Portuguese (Native)"]
+    "email": "mauro@malbq.dev",
+    "linkedin": "linkedin.com/in/malbq",
+    "github": "github.com/malbq",
+    "replit": "replit.com/@malbq"
   },
   "education": {
     "institution": "Federal University of Ceará",
