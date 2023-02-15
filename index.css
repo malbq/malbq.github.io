@@ -71,7 +71,7 @@ body {
     radial-gradient(ellipse at bottom left, var(--bg-body), transparent),
     radial-gradient(ellipse at bottom right, var(--bg), transparent),
     radial-gradient(ellipse at top left, var(--bg), transparent), #fff;
-  perspective: 1000px;
+  perspective: 800px;
 }
 
 #profile {
@@ -90,7 +90,6 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
   box-shadow: rgba(255, 255, 255, 0.5) 0px 2px 0px inset,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  translate: 0 0 1rem;
   transform-style: preserve-3d;
 }
 
@@ -101,6 +100,7 @@ body {
 
 #card-wrapper::before,
 #card-wrapper::after {
+  translate: 0 0 -1rem;
   position: absolute;
   left: 0;
   top: 0;
@@ -175,10 +175,8 @@ body {
   width: 56px;
   overflow: hidden;
   transition: all var(--link-transition-dur) var(--link-transition-off);
-  z-index: 1;
   box-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px inset,
     rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
-  translate: 0 0 0.25rem;
 }
 
 .link:hover {
@@ -193,6 +191,7 @@ body {
 
 .link-wrapper::before,
 .link-wrapper::after {
+  translate: 0 0 -0.25rem;
   position: absolute;
   left: 0;
   top: 0;
