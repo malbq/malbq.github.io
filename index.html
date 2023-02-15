@@ -19,22 +19,24 @@
   </head>
   <body>
     <main id="profile">
-      <section id="card">
-        <img
-          id="photo"
-          src="https://avatars.githubusercontent.com/u/784086?v=4"
-          alt="Mauro's profile picture"
-        />
-        <section id="detail">
-          <span id="name">Mauro</span>
-          <span id="lastName">Albuquerque</span>
-          <p id="summary">
-            I'm a frontend developer<br />
-            passionate about solving problems using code<br />
-            to make people's lives easier
-          </p>
+      <div id="card-wrapper">
+        <section id="card">
+          <img
+            id="photo"
+            src="https://avatars.githubusercontent.com/u/784086?v=4"
+            alt="Mauro's profile picture"
+          />
+          <section id="detail">
+            <span id="name">Mauro</span>
+            <span id="lastName">Albuquerque</span>
+            <p id="summary">
+              I'm a frontend developer<br />
+              passionate about solving problems using code<br />
+              to make people's lives easier
+            </p>
+          </section>
         </section>
-      </section>
+      </div>
       <section id="links">
         <a id="mail" class="link" href="mailto:mauro@malbq.dev">
           <svg
@@ -126,4 +128,18 @@
       </section>
     </main>
   </body>
+  <script lang="javascript">
+    const profile = document.getElementById('profile');
+    const w2 = Math.ceil(document.body.clientWidth / 2);
+    const h2 = Math.ceil(document.body.clientHeight / 2);
+    document.body.addEventListener('mousemove', (ev) => {
+      const nx = (ev.pageX - w2) / w2;
+      const ny = (ev.pageY - h2) / h2;
+      const mod = Math.sqrt(Math.pow(nx, 2) + Math.pow(ny, 2));
+
+      const axisX = -ny;
+      const axisY = nx;
+      profile.style.transform = `rotate3d(${axisX},${axisY},0,${mod*10}deg)`;
+    });
+  </script>
 </html>
