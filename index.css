@@ -152,6 +152,7 @@ body {
 
 #summary {
   align-self: flex-end;
+  line-height: 1.2;
 }
 
 #links {
