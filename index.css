@@ -3,11 +3,18 @@
   --bg: #c8dbf8;
   --fg: #1f232b;
   --sans: 'Montserrat', sans-serif;
-  --pic-h: 220px;
+  --pic-h: 280px;
   --link-transition-dur: 200ms;
   --link-transition-off: 200ms;
-  font-size: 24px;
+  font-size: 18px;
   font-family: var(--sans);
+}
+
+@media (min-width: 820px) {
+  :root {
+    --pic-h: 220px;
+    font-size: 24px;
+  }
 }
 
 * {
@@ -78,19 +85,31 @@ body {
   margin: 0 auto;
   max-width: 90%;
   transform-style: preserve-3d;
+  transition: transform 0.1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #card {
-  padding: 1rem 2rem 1rem 1rem;
+  padding: 1rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 1rem;
   background-color: var(--bg);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
   box-shadow: rgba(255, 255, 255, 0.5) 0px 2px 0px inset,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   transform-style: preserve-3d;
+}
+
+@media (min-width: 820px) {
+  #card {
+    align-items: center;
+    padding: 1rem 2rem 1rem 1rem;
+    flex-direction: row;
+  }
 }
 
 #card-wrapper {
@@ -122,7 +141,15 @@ body {
 #card,
 #card-wrapper::before,
 #card-wrapper::after {
-  border-radius: 10rem 2rem 2rem 10rem;
+  border-radius: 10rem 10rem 2rem 2rem;
+}
+
+@media (min-width: 820px) {
+  #card,
+  #card-wrapper::before,
+  #card-wrapper::after {
+    border-radius: 10rem 2rem 2rem 10rem;
+  }
 }
 
 #photo {
@@ -134,7 +161,15 @@ body {
 }
 
 #detail {
-  text-align: right;
+  width: 100%;
+  padding: 0 1rem 1rem;
+}
+
+@media (min-width: 820px) {
+  #detail {
+    text-align: right;
+    padding: 0;
+  }
 }
 
 #name {
@@ -151,8 +186,8 @@ body {
 }
 
 #summary {
-  align-self: flex-end;
   line-height: 1.2;
+  text-align: right;
 }
 
 #links {
@@ -164,24 +199,18 @@ body {
 }
 
 .link {
-  padding: 0.5rem;
+  padding: 0.666rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   background-color: var(--bg);
   height: 56px;
   width: 56px;
-  overflow: hidden;
-  transition: all var(--link-transition-dur) var(--link-transition-off);
   box-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px inset,
     rgba(0, 0, 0, 0.2) 0px -2px 0px inset;
-}
-
-.link:hover {
-  transition: all var(--link-transition-dur);
-  translate: 0 0 1rem;
+  overflow: hidden;
 }
 
 .link-wrapper {
@@ -218,39 +247,68 @@ body {
   border-radius: 30px;
 }
 
-#mail:hover {
-  width: 138px;
-}
+@media (min-width: 820px) {
+  .link {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    transition: all var(--link-transition-dur) var(--link-transition-off);
+  }
+  .link:hover {
+    transition: all var(--link-transition-dur);
+    translate: 0 0 1rem;
+  }
+  #mail:hover {
+    width: 138px;
+  }
 
-#linkedin:hover {
-  width: 162px;
-}
+  #linkedin:hover {
+    width: 162px;
+  }
 
-#github:hover {
-  width: 144px;
-}
+  #github:hover {
+    width: 144px;
+  }
 
-#stackblitz:hover {
-  width: 184px;
-}
+  #stackblitz:hover {
+    width: 184px;
+  }
 
-#replit:hover {
-  width: 137px;
+  #replit:hover {
+    width: 137px;
+  }
 }
 
 .link-icon {
   flex-shrink: 0;
+  width: 32px;
+  height: 32px;
 }
 
 .link-text {
+  color: transparent;
   white-space: nowrap;
   padding-inline-start: 0.5rem;
   padding-inline-end: 0.25rem;
-  color: transparent;
-  transition: color var(--link-transition-dur) var(--link-transition-off);
 }
 
-.link:hover .link-text {
-  transition: color var(--link-transition-dur);
-  color: var(--fg);
+@media (min-width: 820px) {
+  .link-text {
+    transition: color var(--link-transition-dur) var(--link-transition-off);
+  }
+  .link:hover .link-text {
+    transition: color var(--link-transition-dur);
+    color: var(--fg);
+  }
+}
+
+@media (max-width: 819px) {
+  .hide-sm {
+    display: none;
+  }
+}
+
+@media (min-width: 820px) {
+  .hide-lg {
+    display: none;
+  }
 }
