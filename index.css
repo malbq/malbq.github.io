@@ -3,18 +3,11 @@
   --bg: #c8dbf8;
   --fg: #1f232b;
   --sans: 'Montserrat', sans-serif;
-  --pic-h: 280px;
+  --pic-w: 280px;
   --link-transition-dur: 200ms;
   --link-transition-off: 200ms;
   font-size: 18px;
   font-family: var(--sans);
-}
-
-@media (min-width: 820px) {
-  :root {
-    --pic-h: 220px;
-    font-size: 24px;
-  }
 }
 
 * {
@@ -69,11 +62,11 @@ a:hover {
 
 body {
   margin: 0;
+  padding-block-start: 2rem;
   color: var(--fg);
   line-height: 1;
   height: 100vh;
   display: flex;
-  place-items: center;
   background: radial-gradient(ellipse at top right, var(--bg-body), transparent),
     radial-gradient(ellipse at bottom left, var(--bg-body), transparent),
     radial-gradient(ellipse at bottom right, var(--bg), transparent),
@@ -102,14 +95,6 @@ body {
   box-shadow: rgba(255, 255, 255, 0.5) 0px 2px 0px inset,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   transform-style: preserve-3d;
-}
-
-@media (min-width: 820px) {
-  #card {
-    align-items: center;
-    padding: 1rem 2rem 1rem 1rem;
-    flex-direction: row;
-  }
 }
 
 #card-wrapper {
@@ -144,17 +129,9 @@ body {
   border-radius: 10rem 10rem 2rem 2rem;
 }
 
-@media (min-width: 820px) {
-  #card,
-  #card-wrapper::before,
-  #card-wrapper::after {
-    border-radius: 10rem 2rem 2rem 10rem;
-  }
-}
-
 #photo {
-  width: var(--pic-h);
-  border-radius: var(--pic-h);
+  width: var(--pic-w);
+  border-radius: var(--pic-w);
   background: linear-gradient(320deg, #525a70, #828fb1) border-box;
   border: 4px solid transparent;
   translate: 0 0 1rem;
@@ -163,13 +140,6 @@ body {
 #detail {
   width: 100%;
   padding: 0 1rem 1rem;
-}
-
-@media (min-width: 820px) {
-  #detail {
-    text-align: right;
-    padding: 0;
-  }
 }
 
 #name {
@@ -247,16 +217,68 @@ body {
   border-radius: 30px;
 }
 
+.link-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.link-text {
+  color: transparent;
+  white-space: nowrap;
+  padding-inline-start: 0.5rem;
+  padding-inline-end: 0.25rem;
+}
+
+@media (max-width: 819px) {
+  .hide-sm {
+    display: none;
+  }
+}
+
 @media (min-width: 820px) {
+  :root {
+    --pic-w: 220px;
+    font-size: 24px;
+  }
+
+  .hide-lg {
+    display: none;
+  }
+
+  body {
+    padding-block-start: 0;
+    place-items: center;
+  }
+
+  #card {
+    align-items: center;
+    padding: 1rem 2rem 1rem 1rem;
+    flex-direction: row;
+  }
+
+  #card,
+  #card-wrapper::before,
+  #card-wrapper::after {
+    border-radius: 10rem 2rem 2rem 10rem;
+  }
+
+  #detail {
+    text-align: right;
+    padding: 0;
+  }
+
   .link {
     padding: 0.5rem;
     font-size: 0.75rem;
     transition: all var(--link-transition-dur) var(--link-transition-off);
   }
+
   .link:hover {
     transition: all var(--link-transition-dur);
     translate: 0 0 1rem;
   }
+
   #mail:hover {
     width: 138px;
   }
@@ -276,39 +298,13 @@ body {
   #replit:hover {
     width: 137px;
   }
-}
 
-.link-icon {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-}
-
-.link-text {
-  color: transparent;
-  white-space: nowrap;
-  padding-inline-start: 0.5rem;
-  padding-inline-end: 0.25rem;
-}
-
-@media (min-width: 820px) {
   .link-text {
     transition: color var(--link-transition-dur) var(--link-transition-off);
   }
+
   .link:hover .link-text {
     transition: color var(--link-transition-dur);
     color: var(--fg);
-  }
-}
-
-@media (max-width: 819px) {
-  .hide-sm {
-    display: none;
-  }
-}
-
-@media (min-width: 820px) {
-  .hide-lg {
-    display: none;
   }
 }
