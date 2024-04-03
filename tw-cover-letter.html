@@ -7,21 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&family=Playfair+Display:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Playfair+Display:wght@700&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,100,1,0"
     />
     <style>
       :root {
-        --primary: #ebddac;
+        --primary: #7d6511;
         --bg: #ffffff;
         --fg: #394257;
-        --fg-light: #747d91;
-        --bgi: #616879;
-        --fgi: #ffffff;
         --title: 'Playfair Display', serif;
         --body: 'Montserrat', sans-serif;
         --pic-h: 160px;
@@ -33,49 +26,6 @@
         -moz-osx-font-smoothing: grayscale;
       }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      p {
-        margin: 0;
-        padding: 0;
-      }
-
-      h1,
-      h2,
-      h3 {
-        font-family: var(--title);
-        font-weight: 700;
-      }
-
-      h4,
-      h5 {
-        font-family: var(--body);
-        font-weight: 700;
-      }
-
-      address {
-        font-style: normal;
-      }
-
-      ul {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-      }
-
-      a,
-      a:active {
-        color: var(--fgi);
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
       body {
         margin: 0;
         min-height: 100dvh;
@@ -84,22 +34,61 @@
         font-size: 16px;
         line-height: 1.5;
         padding: 4rem;
-        background: radial-gradient(ellipse at top right, #b2b8c7, transparent),
-          radial-gradient(ellipse at bottom left, #b2b8c7, transparent),
+        background: radial-gradient(ellipse at top right, #ffffff, transparent),
+          radial-gradient(ellipse at bottom left, #ffffff, transparent),
           radial-gradient(ellipse at bottom right, #6a738a, transparent),
-          radial-gradient(ellipse at top left, #6a738a, transparent), var(--bgi);
+          radial-gradient(ellipse at top left, #6a738a, transparent), var(--bg);
+      }
+
+      h1 {
+        margin: 0;
+        padding: 0;
+      }
+
+      h2,
+      p {
+        margin: 0 0 1rem;
+        padding: 0;
+      }
+
+      h1,
+      h2 {
+        font-family: var(--title);
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      a,
+      a:active {
+        color: var(--fg);
+        text-decoration: underline;
+        transition: all 0.1s;
+      }
+
+      a:hover {
+        color: var(--primary);
       }
 
       #profile {
         display: flex;
         align-items: center;
         gap: 2rem;
+        margin-block-end: 2.5rem;
       }
 
       #photo {
         width: var(--pic-h);
         border-radius: var(--pic-h);
         align-self: center;
+      }
+
+      #links {
         margin-block-end: 2.5rem;
       }
     </style>
@@ -113,15 +102,73 @@
       />
       <div>
         <h1>Mauro Gadelha Albuquerque</h1>
-        <a id="mail" class="has-icon" href="mailto:mauro@malbq.dev">
-          mauro@malbq.dev
-        </a>
+        <a href="mailto:mauro@malbq.dev"> mauro@malbq.dev </a>
         •
-        <span id="location"> Fortaleza, Brasil </span>
+        <span> Fortaleza, Brazil </span>
       </div>
     </section>
-    <h2>Tailwind Labs</h2>
-    <h3>Staff Software Engineer</h3>
-    <div id="content"></div>
+    <h2>Cover letter for Staff Software Engineer position at Tailwind Labs</h2>
+    <div id="links">
+      <strong>Download:</strong>
+      <a href="https://malbq.dev/tw-cover-letter-mauro-albuquerque.docx">
+        DOCX </a
+      >,
+      <a href="https://malbq.dev/tw-cover-letter-mauro-albuquerque.pdf">
+        PDF
+      </a>
+    </div>
+    <div id="content">
+      <p>
+        I am writing to express my interest in the Staff Software Engineer
+        position at Tailwind Labs.
+      </p>
+      <p>
+        With over 15 years of hands-on experience in web development, I have
+        cultivated a deep understanding of the web platform, particularly in CSS
+        and JavaScript. I am confident in my ability to contribute effectively
+        to your team.
+      </p>
+      <p>
+        This extensive background has equipped me with a keen eye for software
+        architecture, emphasizing the importance of long-term thinking. Agility
+        is not about delivering fast. It's delivering (relatively) quickly, and
+        consistently. It’s about being productive and working to maintain that
+        productivity over time.
+      </p>
+      <p>
+        As a developer, my primary goal is to create solutions that address
+        real-world challenges, positively impacting people's lives through code.
+        What excites me even more is when I, myself, am among those who directly
+        benefit from my craft.
+      </p>
+      <p>
+        I am excited to share a project that exemplifies my skills and approach
+        to development: https://lecionario.app
+      </p>
+      <p>
+        Faced with challenges in implementing smooth interactions within a tab
+        view using React Native, I realized I knew how to achieve the same
+        outcome with CSS. Opting for SolidJS, I expanded my toolkit to deliver a
+        solution that prioritizes performance and user experience.
+      </p>
+      <p>
+        This app is a PWA that embodies the principles of local-first web
+        development, harnessing the power of service worker cache and IndexedDB
+        to provide seamless offline support. Moreover, optimization strategies,
+        such as bundle size reduction and dependency splitting, ensure fast
+        loading times. By incorporating some new CSS features, like scroll snap
+        and scroll-driven animations, it delivers a mobile-native experience
+        that sets it apart from traditional web applications.
+      </p>
+      <p>
+        I am enthusiastic about the opportunity to apply my skills and
+        experiences to the Tailwind team, working on innovative solutions that
+        enhance and expand the realm of developer tools. Thank you for
+        considering my application. I look forward to the possibility of
+        discussing how I can contribute to your team further.
+      </p>
+      <p>Sincerely,</p>
+      <p>Mauro</p>
+    </div>
   </body>
 </html>
