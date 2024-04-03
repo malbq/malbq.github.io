@@ -77,9 +77,14 @@
 
       #profile {
         display: flex;
+        flex-direction: column;
         align-items: center;
         gap: 2rem;
         margin-block-end: 2.5rem;
+
+        @media (min-width: 40em) {
+          flex-direction: row;
+        }
       }
 
       #photo {
