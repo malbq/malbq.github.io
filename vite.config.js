@@ -4,6 +4,8 @@ import { resolve } from "path";
 export default {
   root: 'src',
   build: {
+    outDir: resolve(__dirname, 'dist'),
+    emptyOutDir: true,
     rollupOptions: {
       input: readdirSync(resolve(__dirname, 'src')).reduce((acc, file) => {
         if (file.endsWith('.html')) {
