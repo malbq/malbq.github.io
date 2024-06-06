@@ -1,1 +1,1 @@
-# [malbq.dev](malbq.dev)
+# [malbq.dev](https://malbq.dev)
