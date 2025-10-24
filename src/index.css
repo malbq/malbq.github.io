@@ -1,4 +1,4 @@
-:root  {
+:root {
   --tile-size: 48px;
   --grid-columns: 20;
   --main-color: #039942;
@@ -16,7 +16,7 @@ html {
 
 body {
   color: #fff;
-  font-family: monospace;
+  font-family: ui-monospace, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 20px;
   line-height: 1;
   margin: 0;
@@ -38,9 +38,11 @@ em {
   color: var(--lighter-main-color);
 }
 
-a, a:visited {
+a,
+a:visited {
   color: #fff;
 }
+
 a:hover {
   color: var(--lighter-main-color);
 }
@@ -67,15 +69,15 @@ a:hover {
   position: absolute;
   left: var(--x, 0);
   top: var(--y, 0);
-  
+
   &[data-ready] {
     transition: opacity 200ms;
   }
-  
+
   &[data-hover] {
     transition: top 200ms, left 200ms, width 200ms, height 200ms;
   }
-  
+
   &[data-ready][data-hover] {
     transition: opacity 200ms, top 200ms, left 200ms, width 200ms, height 200ms;
   }
@@ -94,48 +96,64 @@ a:hover {
 
   box-shadow: 0 0 10px -5px var(--lighter-main-color);
 }
+
 #name {
   container-type: size;
   grid-area: 2 / 6 / span 2 / span 5;
   display: flex;
   align-items: center;
   padding: 12px;
-  
+
   span {
-    font-size: 37cqw;
+    font-size: 32cqw;
   }
 }
+
 #lastName {
   container-type: size;
   grid-area: 4 / 6 / span 1 / span 6;
   display: flex;
   align-items: center;
   padding: 12px;
-  
+
   span {
-    font-size: 16.5cqw;
+    font-size: 15cqw;
   }
 }
+
 #bio {
   container-type: size;
   grid-area: 6 / 2 / span 2 / span 9;
   padding: 12px;
-  
+
   span {
     line-height: 33cqh;
     font-size: 5.5cqw;
     text-wrap: balance;
   }
 }
+
 #location {
   grid-area: 9 / 2 / span 1 / span 6;
   display: flex;
   align-items: center;
 }
-#mail { grid-area: 7 / 13 / span 1 / span 5; }
-#linkedin { grid-area: 8 / 13 / span 1 / span 7; }
-#github { grid-area: 9 / 13 / span 1 / span 5; }
-#stackblitz { grid-area: 10 / 13 / span 1 / span 6; }
+
+#mail {
+  grid-area: 7 / 13 / span 1 / span 5;
+}
+
+#linkedin {
+  grid-area: 8 / 13 / span 1 / span 7;
+}
+
+#github {
+  grid-area: 9 / 13 / span 1 / span 6;
+}
+
+#stackblitz {
+  grid-area: 10 / 13 / span 1 / span 7;
+}
 
 .link {
   display: flex;
