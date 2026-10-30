@@ -1,6 +1,5 @@
 :root {
   --bg: #1a1b1d;
-  --tile-line: rgba(255, 255, 255, 0.035);
   --main-color: #039942;
   --lighter-main-color: #83f5b2;
   --text: #f2f2f2;
@@ -14,22 +13,16 @@
   box-sizing: border-box;
 }
 
-html {
-  min-height: 100%;
-}
-
 body {
   margin: 0;
   min-height: 100dvh;
   color: var(--text);
-  background-color: var(--bg);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0M0 0V48' fill='none' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1' stroke-dasharray='3 5'/%3E%3C/svg%3E")
+    center top / var(--tile-size) var(--tile-size) var(--bg);
   font-family: var(--font-mono);
   font-size: 1.0625rem;
   line-height: 1.55;
-  /* Subtle dashed tile grid */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M48 0H0M0 0V48' fill='none' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1' stroke-dasharray='3 5'/%3E%3C/svg%3E");
-  background-size: var(--tile-size) var(--tile-size);
-  background-position: center top;
 }
 
 p,
@@ -128,11 +121,11 @@ a:focus-visible {
 #bio {
   max-width: 38rem;
   text-wrap: pretty;
+}
 
-  em {
-    font-style: normal;
-    color: var(--lighter-main-color);
-  }
+#bio em {
+  font-style: normal;
+  color: var(--lighter-main-color);
 }
 
 #location {
@@ -201,7 +194,6 @@ a:focus-visible {
 }
 
 .project p {
-  color: var(--text);
   text-wrap: pretty;
 }
 
@@ -264,7 +256,7 @@ a:focus-visible {
 
 @media (min-width: 640px) {
   .columns {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-columns: 1fr auto;
     gap: 2rem;
     align-items: start;
   }
