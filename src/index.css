@@ -8,7 +8,6 @@
   --tile-size: 48px;
   --page-max: 960px;
   --font-mono: ui-monospace, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-sans: "Segoe UI", "Helvetica Neue", Helvetica, sans-serif;
 }
 
 * {
@@ -24,7 +23,7 @@ body {
   min-height: 100dvh;
   color: var(--text);
   background-color: var(--bg);
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: 1.0625rem;
   line-height: 1.55;
   /* Subtle dashed tile grid */
@@ -92,7 +91,6 @@ a:focus-visible {
 }
 
 #name {
-  font-family: var(--font-mono);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -111,7 +109,6 @@ a:focus-visible {
 }
 
 .role {
-  font-family: var(--font-mono);
   font-size: 0.9rem;
   color: var(--lighter-main-color);
   margin-top: 0.65rem;
@@ -131,13 +128,17 @@ a:focus-visible {
 #bio {
   max-width: 38rem;
   text-wrap: pretty;
+
+  em {
+    font-style: normal;
+    color: var(--lighter-main-color);
+  }
 }
 
 #location {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-mono);
   font-size: 0.875rem;
   color: var(--muted);
   line-height: 1.3;
@@ -156,7 +157,6 @@ a:focus-visible {
   gap: 0.65rem;
   text-decoration: underline;
   text-underline-offset: 0.2em;
-  font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.3;
   padding: 0.35rem 0;
@@ -181,7 +181,6 @@ a:focus-visible {
 }
 
 .projects h2 {
-  font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -190,7 +189,6 @@ a:focus-visible {
 }
 
 .project h3 {
-  font-family: var(--font-mono);
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.3;
