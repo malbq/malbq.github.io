@@ -77,7 +77,7 @@ a:focus-visible {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 1;
+  aspect-ratio: 5 / 2;
 }
 
 #photo {
