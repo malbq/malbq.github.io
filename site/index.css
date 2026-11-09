@@ -245,31 +245,6 @@ a:focus-visible {
   text-wrap: pretty;
 }
 
-#cursor {
-  pointer-events: none;
-  position: absolute;
-  left: var(--x, 0);
-  top: var(--y, 0);
-  width: var(--w, 0);
-  height: var(--h, 0);
-  outline: 3px solid var(--main);
-  border-radius: 4px;
-  opacity: 0;
-  z-index: 2;
-}
-
-#cursor[data-ready] {
-  transition: opacity 200ms;
-}
-
-#cursor[data-hover] {
-  transition: top 200ms, left 200ms, width 200ms, height 200ms;
-}
-
-#cursor[data-ready][data-hover] {
-  transition: opacity 200ms, top 200ms, left 200ms, width 200ms, height 200ms;
-}
-
 @media (max-width: 40rem) {
   .cover-wrap {
     width: calc(100% + (2 * var(--page-pad-x)));
@@ -284,20 +259,5 @@ a:focus-visible {
 
   .project-status--short {
     display: inline;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  #page:hover #cursor[data-ready] {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #cursor,
-  #cursor[data-ready],
-  #cursor[data-hover],
-  #cursor[data-ready][data-hover] {
-    transition: none;
   }
 }
