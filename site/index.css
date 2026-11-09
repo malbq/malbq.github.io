@@ -3,7 +3,7 @@
   --main: #039942;
   --accent: #83f5b2;
   --text: #f2f2f2;
-  --muted: #b0b3b8;
+  --muted: #858b93;
   --mono: ui-monospace, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -81,9 +81,11 @@ a:focus-visible {
 }
 
 #photo {
-  width: 6.5rem;
-  height: 6.5rem;
-  margin-top: -3.25rem;
+  --photo-size: clamp(7rem, 28vw, 160px);
+  width: var(--photo-size);
+  aspect-ratio: 1;
+  height: auto;
+  margin-top: calc(var(--photo-size) / -2);
   margin-left: 0.35rem;
   border-radius: 50%;
   border: 4px solid var(--bg);
@@ -102,20 +104,20 @@ a:focus-visible {
 }
 
 #name {
+  font-size: clamp(1.35rem, 5.2vw, 2.5rem);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
-#name .first {
-  display: block;
-  font-size: 2.5rem;
+#name .first,
+#name .last {
+  display: inline;
+  font-size: inherit;
 }
 
 #name .last {
-  display: block;
-  font-size: 1.4rem;
   font-weight: 600;
-  margin-top: 0.2rem;
 }
 
 .role {
@@ -201,8 +203,8 @@ a:focus-visible {
 .project h3 {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 0.5rem;
+  align-items: center;
+  column-gap: 0.45rem;
   row-gap: 0.15rem;
   margin-bottom: 0.45rem;
   font-size: 1.125rem;
@@ -211,9 +213,6 @@ a:focus-visible {
 }
 
 .project h3 a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
@@ -230,10 +229,16 @@ a:focus-visible {
   border-radius: 0;
 }
 
+.project-status-sep,
 .project-status {
   font-weight: 400;
-  font-size: 0.9rem;
   color: var(--muted);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.project-status--short {
+  display: none;
 }
 
 .project p {
@@ -273,18 +278,12 @@ a:focus-visible {
     border-radius: 0;
   }
 
-  #photo {
-    width: 5.25rem;
-    height: 5.25rem;
-    margin-top: -2.625rem;
+  .project-status--full {
+    display: none;
   }
 
-  #name .first {
-    font-size: 2rem;
-  }
-
-  #name .last {
-    font-size: 1.2rem;
+  .project-status--short {
+    display: inline;
   }
 }
 
