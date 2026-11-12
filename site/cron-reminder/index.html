@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="dark">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Cron Reminder</title>
 <meta name="description" content="Cron Reminder: Android reminders scheduled with cron expressions.">
@@ -29,29 +30,6 @@
   --app: Roboto, "Geist", system-ui, sans-serif;
   color-scheme: dark;
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #F5F6F9; --bg-2: #ECEFF4; --panel: #FFFFFF; --line: #E1E5EC; --line-2: #D2D8E2;
-    --fg: #161A21; --muted: #4F586A; --faint: #646D80;
-    --accent: #3D7EB8; --accent-strong: #2F6A9E; --accent-ink: #FFFFFF;
-    --ok: #2F8F55;
-    --a-bg: #EAECF1; --a-header: #CBD0DC; --a-title: #1A1D23; --a-sub: #363D49;
-    --c-card: #EFF1F5; --c-input: #DFE2EC; --c-on: #1A1D23; --c-muted: #5A6170; --c-accent: #3D7EB8; --c-line: #8D95A5;
-    --bezel: #59616F; --bezel-hi: rgba(255,255,255,.18);
-    color-scheme: light;
-  }
-}
-:root[data-theme="light"] {
-  --bg: #F5F6F9; --bg-2: #ECEFF4; --panel: #FFFFFF; --line: #E1E5EC; --line-2: #D2D8E2;
-  --fg: #161A21; --muted: #4F586A; --faint: #646D80;
-  --accent: #3D7EB8; --accent-strong: #2F6A9E; --accent-ink: #FFFFFF;
-  --ok: #2F8F55;
-  --a-bg: #EAECF1; --a-header: #CBD0DC; --a-title: #1A1D23; --a-sub: #363D49;
-  --c-card: #EFF1F5; --c-input: #DFE2EC; --c-on: #1A1D23; --c-muted: #5A6170; --c-accent: #3D7EB8; --c-line: #8D95A5;
-  --bezel: #59616F; --bezel-hi: rgba(255,255,255,.18);
-  color-scheme: light;
-}
-
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--font); -webkit-font-smoothing: antialiased; }
 .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
