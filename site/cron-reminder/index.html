@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cron Reminder</title>
+<meta name="description" content="Cron Reminder: Android reminders scheduled with cron expressions.">
+<link rel="canonical" href="https://malbq.dev/cron-reminder/">
+<meta property="og:title" content="Cron Reminder">
+<meta property="og:description" content="Cron Reminder: Android reminders scheduled with cron expressions.">
+<meta property="og:url" content="https://malbq.dev/cron-reminder/">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: dark-first, short page for a technical audience. Hero (copy + static HTML mock of the app), live editing card, one-line privacy strip, closed-test form, footer. App mock and demo card use the app's own Theme.js colors. */
+:root {
+  --bg: #15191F; --bg-2: #1B2028; --panel: #20262F; --line: #2C333E; --line-2: #39414E;
+  --fg: #E8EBF1; --muted: #A3ACBD; --faint: #8A93A6;
+  --accent: #5B9FD4; --accent-strong: #7CB5E2; --accent-ink: #0D1B29;
+  --ok: #6CC28B;
+  /* app (dark), from ui/Theme.js */
+  --a-bg: #363D49; --a-header: #272C35; --a-title: #E6E6E6; --a-sub: #A1A9BA;
+  --c-card: #4A5264; --c-input: #272C35; --c-on: #E6E6E6; --c-muted: #A1A9BA; --c-accent: #5B9FD4; --c-line: #A1A9BA;
+  --bezel: #2B313B; --bezel-hi: rgba(255,255,255,.10);
+  --font: "Geist", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --app: Roboto, "Geist", system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #F5F6F9; --bg-2: #ECEFF4; --panel: #FFFFFF; --line: #E1E5EC; --line-2: #D2D8E2;
+    --fg: #161A21; --muted: #4F586A; --faint: #646D80;
+    --accent: #3D7EB8; --accent-strong: #2F6A9E; --accent-ink: #FFFFFF;
+    --ok: #2F8F55;
+    --a-bg: #EAECF1; --a-header: #CBD0DC; --a-title: #1A1D23; --a-sub: #363D49;
+    --c-card: #EFF1F5; --c-input: #DFE2EC; --c-on: #1A1D23; --c-muted: #5A6170; --c-accent: #3D7EB8; --c-line: #8D95A5;
+    --bezel: #59616F; --bezel-hi: rgba(255,255,255,.18);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #F5F6F9; --bg-2: #ECEFF4; --panel: #FFFFFF; --line: #E1E5EC; --line-2: #D2D8E2;
+  --fg: #161A21; --muted: #4F586A; --faint: #646D80;
+  --accent: #3D7EB8; --accent-strong: #2F6A9E; --accent-ink: #FFFFFF;
+  --ok: #2F8F55;
+  --a-bg: #EAECF1; --a-header: #CBD0DC; --a-title: #1A1D23; --a-sub: #363D49;
+  --c-card: #EFF1F5; --c-input: #DFE2EC; --c-on: #1A1D23; --c-muted: #5A6170; --c-accent: #3D7EB8; --c-line: #8D95A5;
+  --bezel: #59616F; --bezel-hi: rgba(255,255,255,.18);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.55 var(--font); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+code { font-family: var(--mono); }
+
+/* Header */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; backdrop-filter: saturate(140%) blur(10px); background: color-mix(in srgb, var(--bg) 82%, transparent); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.nav { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; white-space: nowrap; }
+.brand svg { width: 28px; height: 28px; display: block; }
+.nav-links { display: flex; align-items: center; gap: 20px; font-size: 14px; }
+.nav-links a:not(.btn) { text-decoration: none; color: var(--muted); }
+.nav-links a:not(.btn):hover { color: var(--fg); }
+@media (max-width: 480px) { .nav-links .site-link { display: none; } }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; text-decoration: none; cursor: pointer;
+  font: 500 14px/1 var(--font); padding: 11px 16px; border-radius: 10px; border: 1px solid transparent;
+  background: var(--accent); color: var(--accent-ink); transition: background-color .15s;
+}
+.btn:hover { background: var(--accent-strong); }
+.btn.ghost { background: transparent; color: var(--fg); border-color: var(--line-2); }
+.btn.ghost:hover { background: var(--bg-2); }
+
+/* Hero */
+.hero { padding-block: 56px 40px; }
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+@media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+.status-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 12px 6px 10px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+h1 { font-size: clamp(38px, 5.4vw, 60px); line-height: 1.04; letter-spacing: -.035em; font-weight: 600; margin: 20px 0 0; text-wrap: balance; }
+.lede { font-size: 18px; color: var(--muted); max-width: 44ch; margin: 18px 0 0; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+
+/* Static app mock */
+.phone-col { display: flex; justify-content: center; }
+.phone {
+  width: min(340px, 86vw); border-radius: 36px; padding: 9px; background: var(--bezel);
+  box-shadow: 0 0 0 1px var(--bezel-hi) inset, 0 24px 48px -24px rgba(0,0,0,.45);
+}
+.screen { border-radius: 28px; overflow: hidden; background: var(--a-bg); font-family: var(--app); }
+.a-bar { background: var(--a-header); padding: 26px 16px 14px; display: flex; align-items: flex-end; justify-content: space-between; }
+.a-bar .t { color: var(--a-title); font-size: 19px; }
+.a-bar .s { color: var(--a-sub); font-size: 12px; margin-top: 2px; }
+.a-bar svg { width: 22px; height: 22px; fill: var(--a-title); margin-bottom: 4px; }
+.a-list { padding: 14px 12px 64px; display: grid; gap: 12px; position: relative; }
+.mini { background: var(--c-card); border-radius: 4px; padding: 3px; color: var(--c-on); box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+.mini .ti { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 0 4px; padding: 8px 6px 6px; border-bottom: 1px solid var(--c-line); font-size: 13.5px; }
+.mini .ti svg { width: 14px; height: 14px; fill: var(--c-on); opacity: .8; }
+.mini .cr { margin-top: 4px; height: 34px; display: grid; place-items: center; background: var(--c-input); border-radius: 2px; font: 500 13.5px/1 var(--mono); letter-spacing: .12em; white-space: pre; }
+.mini .nx { display: flex; align-items: center; gap: 6px; padding: 6px 5px 3px; font-size: 11.5px; }
+.mini .nx svg { width: 12px; height: 12px; fill: var(--c-accent); }
+.fab { position: absolute; right: 14px; bottom: 12px; width: 44px; height: 44px; border-radius: 50%; background: var(--c-accent); display: grid; place-items: center; box-shadow: 0 4px 10px rgba(0,0,0,.3); }
+.fab svg { width: 22px; height: 22px; fill: #fff; }
+
+/* Sections */
+section { padding-block: 48px; }
+h2 { font-size: clamp(24px, 3vw, 30px); line-height: 1.15; letter-spacing: -.025em; font-weight: 600; margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); margin: 12px 0 0; max-width: 46ch; }
+
+/* Live card */
+.demo { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+@media (max-width: 860px) { .demo { grid-template-columns: 1fr; gap: 28px; } }
+.card {
+  max-width: 440px; width: 100%; margin: 0 auto; background: var(--c-card); border-radius: 6px; padding: 6px; color: var(--c-on);
+  font-family: var(--app); box-shadow: 0 16px 36px -18px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.15);
+}
+.c-row { display: flex; align-items: center; }
+.c-title { flex: 1; min-width: 0; margin: 0 4px 0 6px; padding: 12px 8px 10px; border-bottom: 1.5px solid var(--c-line); font-size: 17px; }
+.c-x { width: 44px; height: 44px; display: grid; place-items: center; }
+.c-x svg { width: 20px; height: 20px; fill: var(--c-on); opacity: .85; }
+.c-cron { position: relative; margin-top: 6px; height: 54px; background: var(--c-input); border-radius: 3px; display: flex; align-items: center; justify-content: center; font: 500 19px/1 var(--mono); letter-spacing: .14em; white-space: pre; }
+.c-cron .ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--c-muted); }
+.caret { display: inline-block; width: 2px; height: 22px; margin-left: 1px; background: var(--c-accent); vertical-align: -4px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.c-line { display: flex; align-items: flex-start; gap: 9px; padding: 9px 8px 4px; font-size: 14.5px; line-height: 1.35; }
+.c-line svg { width: 17px; height: 17px; flex: none; margin-top: 1px; }
+.c-guide svg { fill: var(--c-muted); }
+.c-next svg { fill: var(--c-accent); }
+.c-guide b { font-weight: 600; }
+.c-guide code { font-size: 13.5px; }
+.c-field { transition: opacity .12s; }
+.c-field.swap { opacity: 0; }
+.c-forms { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 3px 16px; padding: 0 8px 4px 34px; font-size: 13.5px; color: var(--c-muted); }
+@media (max-width: 420px) { .c-forms { grid-template-columns: repeat(2, auto); } }
+.c-forms code { color: var(--c-on); font-size: 13.5px; }
+.c-next { padding-bottom: 8px; max-height: 44px; overflow: hidden; transition: max-height .12s ease-out, opacity .12s, padding .12s; }
+.c-next.hidden { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
+
+/* Privacy strip */
+.privacy { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 32px; border-block: 1px solid var(--line); padding-block: 22px; }
+.privacy h2 { font-size: 19px; letter-spacing: -.015em; }
+.facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; color: var(--muted); font-size: 15px; }
+.facts li { display: inline-flex; align-items: center; gap: 8px; }
+.facts svg { width: 18px; height: 18px; fill: var(--accent); }
+.facts a { color: var(--muted); }
+
+/* Join */
+.join { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 48px; align-items: end; }
+@media (max-width: 860px) { .join { grid-template-columns: 1fr; } }
+
+footer { border-top: 1px solid var(--line); margin-top: 40px; }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-block: 24px calc(28px + env(safe-area-inset-bottom, 0px)); font-size: 13.5px; color: var(--faint); }
+.foot nav { display: flex; gap: 18px; flex-wrap: wrap; }
+.foot a { text-decoration: none; color: var(--muted); }
+.foot a:hover { color: var(--fg); }
+
+@media (prefers-reduced-motion: reduce) { .caret { animation: none; } .c-field, .c-next, .btn { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="glyph" viewBox="0 0 1024 1024">
+    <rect width="1024" height="1024" rx="230" fill="#363D49"/>
+    <g transform="translate(512 512) scale(.86) translate(-512 -512)" fill="none" stroke-linecap="round">
+      <path d="M 815 337 A 350 350 0 1 0 815 687" stroke="#5B9FD4" stroke-width="64"/>
+      <g stroke="#8A93A6" stroke-width="56"><path d="M512 512L663.6 424.5"/><path d="M512 512L512 687"/><path d="M512 512L360.4 599.5"/><path d="M512 512L360.4 424.5"/></g>
+      <g stroke="#E6E6E6" stroke-width="56"><path d="M512 512L512 337"/><path d="M512 512L663.6 599.5"/></g>
+    </g>
+  </symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></symbol>
+  <symbol id="i-add" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></symbol>
+  <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46A5.497 5.497 0 0 1 17.5 11v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45C23.16 17.65 24 16.17 24 14.5c0-2.64-2.05-4.78-4.65-4.96zM3 5.27l2.75 2.74C2.56 8.15 0 10.77 0 14c0 3.31 2.69 6 6 6h11.73l2 2L21 20.73 4.27 4 3 5.27zM7.73 10l8 8H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73z"/></symbol>
+  <symbol id="i-person-off" viewBox="0 0 24 24"><path d="M8.65 5.82A3.999 3.999 0 1 1 14.18 11.35L8.65 5.82zM20 17.17c-.02-1.1-.63-2.11-1.61-2.62-.54-.28-1.13-.54-1.77-.76L20 17.17zm1.19 4.02L2.81 2.81 1.39 4.22l8.89 8.89c-1.81.23-3.39.79-4.67 1.45A2.97 2.97 0 0 0 4 17.22V20h13.17l2.61 2.61 1.41-1.42z"/></symbol>
+  <symbol id="i-block" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9A7.902 7.902 0 0 1 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1A7.902 7.902 0 0 1 20 12c0 4.42-3.58 8-8 8z"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Cron Reminder, top of page"><svg aria-hidden="true"><use href="#glyph"/></svg>Cron Reminder</a>
+    <nav class="nav-links" aria-label="Site">
+      <a class="site-link" href="https://malbq.dev">malbq.dev</a>
+      <a class="btn" href="#join">Join the test</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="status-pill"><span class="dot"></span>In closed testing on Google Play</span>
+        <h1>Phone reminders, scheduled with cron.</h1>
+        <p class="lede">Write a title and a five-field cron expression. The phone notifies you on that schedule, on the minute.</p>
+        <div class="cta-row">
+          <a class="btn" href="#join">Join the test</a>
+          <a class="btn ghost" href="#how">How it works</a>
+        </div>
+      </div>
+      <div class="phone-col">
+        <div class="phone" role="img" aria-label="The app's reminder list: four reminders, each with its cron expression and next run">
+          <div class="screen" aria-hidden="true">
+            <div class="a-bar">
+              <div><div class="t">Cron Reminder</div><div class="s">Set reminders using cron expressions</div></div>
+              <svg><use href="#i-gear"/></svg>
+            </div>
+            <div class="a-list" id="mock-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="how">
+    <div class="wrap demo">
+      <div>
+        <h2>Explains the expression as you type.</h2>
+        <p class="sub">The card shows the range and syntax of the field under the cursor, then the exact next run once the expression is complete.</p>
+      </div>
+      <div class="card" role="img" aria-label="Animated example of the reminder card while typing a cron expression">
+        <div aria-hidden="true">
+          <div class="c-row">
+            <div class="c-title" id="c-title">Call mom</div>
+            <div class="c-x"><svg><use href="#i-close"/></svg></div>
+          </div>
+          <div class="c-cron" id="c-cron"></div>
+          <div class="c-line c-guide"><svg><use href="#i-edit"/></svg><span class="c-field" id="c-field"></span></div>
+          <div class="c-forms"><span><code>*</code> any</span><span><code>a-b</code> range</span><span><code>a,b</code> list</span><span><code>*/n</code> every n</span></div>
+          <div class="c-line c-next hidden" id="c-next"><svg><use href="#i-bell"/></svg><span id="c-next-text"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="privacy">
+        <h2>Private by design.</h2>
+        <ul class="facts">
+          <li><svg aria-hidden="true"><use href="#i-person-off"/></svg>No account</li>
+          <li><svg aria-hidden="true"><use href="#i-block"/></svg>No ads or tracking</li>
+          <li><svg aria-hidden="true"><use href="#i-cloud-off"/></svg>Data stays on the device</li>
+          <li><a href="https://malbq.dev/cron-reminder/privacy/">Privacy policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="join">
+    <div class="wrap join">
+      <div>
+        <h2>Join the test.</h2>
+        <p class="sub">Leave the email of the Google account on your phone. You'll get an invite to install it from Google Play.</p>
+      </div>
+      <iframe data-tally-src="https://tally.so/embed/Ar2AqN?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="120" frameborder="0" marginheight="0" marginwidth="0" title="Join the Test"></iframe>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <nav aria-label="Footer">
+      <a href="https://malbq.dev">malbq.dev</a>
+      <a href="https://malbq.dev/cron-reminder/privacy/">Privacy policy</a>
+      <a href="mailto:apps@malbq.dev">apps@malbq.dev</a>
+    </nav>
+    <span>Cron Reminder 1.0.0 · Mauro Albuquerque</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function expand(tok, lo, hi) {
+    var out = [];
+    tok.split(',').forEach(function (part) {
+      var step = 1, m = part.split('/');
+      if (m[1]) step = +m[1];
+      var r = m[0] === '*' ? [lo, hi] : m[0].split('-').map(Number);
+      var a = r[0], b = r.length > 1 ? r[1] : (m[1] ? hi : r[0]);
+      for (var v = a; v <= b; v += step) out.push(v);
+    });
+    return out;
+  }
+  function nextFire(expr) {
+    var f = expr.trim().split(/\s+/);
+    var mi = expand(f[0], 0, 59), hr = expand(f[1], 0, 23), dm = expand(f[2], 1, 31), mo = expand(f[3], 1, 12), dw = expand(f[4], 0, 6);
+    var t = new Date(); t.setSeconds(0, 0); t.setMinutes(t.getMinutes() + 1);
+    var p = function (n) { return String(n).padStart(2, '0'); };
+    for (var i = 0; i < 60 * 24 * 400; i++) {
+      if (mo.indexOf(t.getMonth() + 1) >= 0 && dm.indexOf(t.getDate()) >= 0 && dw.indexOf(t.getDay()) >= 0 && hr.indexOf(t.getHours()) >= 0 && mi.indexOf(t.getMinutes()) >= 0) {
+        return DOW[t.getDay()] + ', ' + MON[t.getMonth()] + ' ' + t.getDate() + ' · ' + p(t.getHours()) + ':' + p(t.getMinutes());
+      }
+      t = new Date(t.getTime() + 60000);
+    }
+    return '';
+  }
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+  // ---- Static mock of the app's list; Next dates computed from now.
+  var LIST = [['Take vitamins', '0 8 * * *'], ['Team standup', '15 9 * * 1-5'], ['Stretch break', '*/45 9-17 * * 1-5'], ['Water the plants', '0 19 * * 3,6']];
+  document.getElementById('mock-list').innerHTML = LIST.map(function (r) {
+    return '<div class="mini"><div class="ti">' + esc(r[0]) + '<svg><use href="#i-close"/></svg></div>' +
+      '<div class="cr">' + esc(r[1]) + '</div>' +
+      '<div class="nx"><svg><use href="#i-bell"/></svg>Next: ' + nextFire(r[1]) + '</div></div>';
+  }).join('') + '<div class="fab"><svg><use href="#i-add"/></svg></div>';
+
+  // ---- Live card: types an expression, pausing at each field so the guide change is visible.
+  var FIELDS = [
+    ['Minute', '<code>0–59</code>'], ['Hour', '<code>0–23</code>'], ['Day of month', '<code>1–31</code>'],
+    ['Month', '<code>1–12</code>'], ['Day of week', '<code>0–6</code>, Sunday is <code>0</code>']
+  ];
+  var SCRIPT = [
+    { title: 'Call mom', expr: '0 18 * * 0' },
+    { title: 'Stretch break', expr: '*/45 9-17 * * 1-5' },
+    { title: 'Pay rent', expr: '0 9 5 * *' }
+  ];
+  var CHAR_MS = 150, FIELD_PAUSE_MS = 900, HOLD_MS = 3000, ERASE_MS = 40, EMPTY_MS = 900;
+  var cron = document.getElementById('c-cron'), field = document.getElementById('c-field');
+  var next = document.getElementById('c-next'), nextText = document.getElementById('c-next-text');
+  var title = document.getElementById('c-title');
+  var current = -1;
+
+  function setField(idx) {
+    if (idx === current) return;
+    var first = current === -1;
+    current = idx;
+    var html = '<b>' + FIELDS[idx][0] + '</b> ' + FIELDS[idx][1];
+    if (first) { field.innerHTML = html; return; }
+    field.classList.add('swap');
+    setTimeout(function () { field.innerHTML = html; field.classList.remove('swap'); }, 120);
+  }
+  function show(text, item) {
+    cron.innerHTML = (text ? esc(text) : '<span class="ph">* * * * *</span>') + '<span class="caret"></span>';
+    setField(Math.min((text.match(/ /g) || []).length, 4));
+    var complete = text === item.expr;
+    if (complete) nextText.textContent = 'Next: ' + nextFire(item.expr);
+    next.classList.toggle('hidden', !complete);
+  }
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  title.textContent = SCRIPT[0].title;
+  show(SCRIPT[0].expr, SCRIPT[0]);              // resting frame: complete example
+
+  var k = 0;
+  function erase(item, then) {
+    var j = item.expr.length;
+    (function back() {
+      j--;
+      show(item.expr.slice(0, Math.max(0, j)), item);
+      if (j > 0) setTimeout(back, ERASE_MS); else setTimeout(then, EMPTY_MS);
+    })();
+  }
+  function type(item) {
+    title.textContent = item.title;
+    var i = 0;
+    (function step() {
+      show(item.expr.slice(0, i), item);
+      if (i >= item.expr.length) {
+        setTimeout(function () { var cur = item; k++; erase(cur, function () { type(SCRIPT[k % SCRIPT.length]); }); }, HOLD_MS);
+        return;
+      }
+      var ch = item.expr[i];
+      i++;
+      // A space moves the cursor to the next field: hold there so the guide change reads.
+      setTimeout(step, ch === ' ' ? FIELD_PAUSE_MS : CHAR_MS);
+    })();
+  }
+  if (!reduce) setTimeout(function () { k = 1; erase(SCRIPT[0], function () { type(SCRIPT[1]); }); }, HOLD_MS);
+})();
+</script>
+</body>
+</html>

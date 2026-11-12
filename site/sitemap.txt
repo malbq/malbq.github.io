@@ -1,1 +1,2 @@
 https://malbq.dev
+https://malbq.dev/cron-reminder/
