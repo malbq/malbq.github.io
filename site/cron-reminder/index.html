@@ -46,7 +46,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .nav-links { display: flex; align-items: center; gap: 20px; font-size: 14px; }
 .nav-links a:not(.btn) { text-decoration: none; color: var(--muted); }
 .nav-links a:not(.btn):hover { color: var(--fg); }
-@media (max-width: 480px) { .nav-links .site-link { display: none; } }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; text-decoration: none; cursor: pointer;
   font: 500 14px/1 var(--font); padding: 11px 16px; border-radius: 10px; border: 1px solid transparent;
@@ -95,8 +94,12 @@ h2 { font-size: clamp(24px, 3vw, 30px); line-height: 1.15; letter-spacing: -.025
 /* Live card */
 .demo { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
 @media (max-width: 860px) { .demo { grid-template-columns: 1fr; gap: 28px; } }
+.card-slot {
+  width: 100%; max-width: 440px; margin: 0 auto;
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch;
+}
 .card {
-  max-width: 440px; width: 100%; margin: 0 auto; background: var(--c-card); border-radius: 6px; padding: 6px; color: var(--c-on);
+  max-width: 440px; width: 100%; margin: 0; background: var(--c-card); border-radius: 6px; padding: 6px; color: var(--c-on);
   font-family: var(--app); box-shadow: 0 16px 36px -18px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.15);
 }
 .c-row { display: flex; align-items: center; }
@@ -113,22 +116,13 @@ h2 { font-size: clamp(24px, 3vw, 30px); line-height: 1.15; letter-spacing: -.025
 .c-next svg { fill: var(--c-accent); }
 .c-guide b { font-weight: 600; }
 .c-guide code { font-size: 13.5px; }
-.c-field {
-  display: block; min-height: calc(2 * 1.35em); /* reserve tallest guide (wraps on narrow) */
-  transition: opacity .12s;
-}
+.c-field { transition: opacity .12s; }
 .c-field.swap { opacity: 0; }
 .c-forms { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 3px 16px; padding: 0 8px 4px 34px; font-size: 13.5px; color: var(--c-muted); }
 @media (max-width: 420px) { .c-forms { grid-template-columns: repeat(2, auto); } }
 .c-forms code { color: var(--c-on); font-size: 13.5px; }
-/* Keep Next always in flow so typing/complete never shifts page layout (2-line wrap on mobile). */
-.c-next {
-  padding-bottom: 8px;
-  min-height: calc(9px + 2 * 1.35em + 8px);
-  opacity: 1;
-  transition: opacity .12s;
-}
-.c-next.hidden { opacity: 0; }
+.c-next { padding-bottom: 8px; max-height: 4.8em; overflow: hidden; transition: max-height .12s ease-out, opacity .12s, padding .12s; }
+.c-next.hidden { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
 
 /* Privacy strip */
 .privacy { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 32px; border-block: 1px solid var(--line); padding-block: 22px; }
@@ -175,7 +169,6 @@ footer { border-top: 1px solid var(--line); margin-top: 40px; }
   <div class="wrap nav">
     <a class="brand" href="#top" aria-label="Cron Reminder, top of page"><svg aria-hidden="true"><use href="#glyph"/></svg>Cron Reminder</a>
     <nav class="nav-links" aria-label="Site">
-      <a class="site-link" href="https://malbq.dev">malbq.dev</a>
       <a class="btn" href="#join">Join the test</a>
     </nav>
   </div>
@@ -213,16 +206,18 @@ footer { border-top: 1px solid var(--line); margin-top: 40px; }
         <h2>Explains the expression as you type.</h2>
         <p class="sub">The card shows the range and syntax of the field under the cursor, then the exact next run once the expression is complete.</p>
       </div>
-      <div class="card" role="img" aria-label="Animated example of the reminder card while typing a cron expression">
-        <div aria-hidden="true">
-          <div class="c-row">
-            <div class="c-title" id="c-title">Call mom</div>
-            <div class="c-x"><svg><use href="#i-close"/></svg></div>
+      <div class="card-slot" id="card-slot">
+        <div class="card" role="img" aria-label="Animated example of the reminder card while typing a cron expression">
+          <div aria-hidden="true">
+            <div class="c-row">
+              <div class="c-title" id="c-title">Call mom</div>
+              <div class="c-x"><svg><use href="#i-close"/></svg></div>
+            </div>
+            <div class="c-cron" id="c-cron"></div>
+            <div class="c-line c-guide"><svg><use href="#i-edit"/></svg><span class="c-field" id="c-field"></span></div>
+            <div class="c-forms"><span><code>*</code> any</span><span><code>a-b</code> range</span><span><code>a,b</code> list</span><span><code>*/n</code> every n</span></div>
+            <div class="c-line c-next hidden" id="c-next"><svg><use href="#i-bell"/></svg><span id="c-next-text"></span></div>
           </div>
-          <div class="c-cron" id="c-cron"></div>
-          <div class="c-line c-guide"><svg><use href="#i-edit"/></svg><span class="c-field" id="c-field"></span></div>
-          <div class="c-forms"><span><code>*</code> any</span><span><code>a-b</code> range</span><span><code>a,b</code> list</span><span><code>*/n</code> every n</span></div>
-          <div class="c-line c-next hidden" id="c-next"><svg><use href="#i-bell"/></svg><span id="c-next-text"></span></div>
         </div>
       </div>
     </div>
@@ -336,9 +331,55 @@ footer { border-top: 1px solid var(--line); margin-top: 40px; }
     next.classList.toggle('hidden', !complete);
   }
 
+  // Reserve slot height for the tallest card state so page layout stays fixed while the card grows/shrinks.
+  var slot = document.getElementById('card-slot');
+  var cardEl = slot.querySelector('.card');
+  function sizeCardSlot() {
+    var clone = cardEl.cloneNode(true);
+    clone.querySelectorAll('[id]').forEach(function (el) { el.removeAttribute('id'); });
+    clone.setAttribute('aria-hidden', 'true');
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.pointerEvents = 'none';
+    clone.style.left = '-10000px';
+    clone.style.top = '0';
+    clone.style.width = cardEl.getBoundingClientRect().width + 'px';
+    clone.style.margin = '0';
+    var cField = clone.querySelector('.c-field');
+    var cNext = clone.querySelector('.c-next');
+    var cNextText = cNext && cNext.querySelector('span');
+    var cTitle = clone.querySelector('.c-title');
+    var cCron = clone.querySelector('.c-cron');
+    if (cNext) cNext.classList.remove('hidden');
+    if (cField) cField.innerHTML = '<b>' + FIELDS[4][0] + '</b> ' + FIELDS[4][1];
+    document.body.appendChild(clone);
+    var h = 0;
+    function probe(titleText, expr, nextLabel) {
+      if (cTitle) cTitle.textContent = titleText;
+      if (cCron) cCron.innerHTML = esc(expr) + '<span class="caret"></span>';
+      if (cNextText) cNextText.textContent = nextLabel;
+      h = Math.max(h, Math.ceil(clone.getBoundingClientRect().height));
+    }
+    // Long Next that wraps on narrow widths + longest guide.
+    probe('Stretch break', '*/45 9-17 * * 1-5', 'Next: Wed, Sep 30 · 23:59');
+    SCRIPT.forEach(function (item) {
+      probe(item.title, item.expr, 'Next: ' + nextFire(item.expr));
+    });
+    document.body.removeChild(clone);
+    slot.style.minHeight = h + 'px';
+  }
+  function onSlotResize() {
+    sizeCardSlot();
+  }
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   title.textContent = SCRIPT[0].title;
   show(SCRIPT[0].expr, SCRIPT[0]);              // resting frame: complete example
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(sizeCardSlot);
+  } else {
+    sizeCardSlot();
+  }
+  window.addEventListener('resize', onSlotResize);
 
   var k = 0;
   function erase(item, then) {
